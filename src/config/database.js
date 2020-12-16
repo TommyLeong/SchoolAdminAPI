@@ -31,5 +31,14 @@ const sequelize = new Sequelize(DB_SCHEMA, DB_USER, DB_PW, {
   }
 });
 
+sequelize.sync({
+  logging: console.log,
+  force: true
+}).then(()=>{
+  console.log('Connection to database established successfully');
+}).catch(err=>{
+  console.error('Unable to connect database', err);
+})
+
 export default sequelize;
 
