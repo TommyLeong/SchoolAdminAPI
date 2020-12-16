@@ -100,7 +100,8 @@ const registrationHandler = async (req, res) => {
       }else{
         Subject.create({
           subjectCode: body.subject.subjectCode,
-          name: body.subject.name
+          name: body.subject.name,
+          TeacherEmail: body.teacher.email
         })
       }
     }).catch(err=>console.log(err))
@@ -119,7 +120,8 @@ const registrationHandler = async (req, res) => {
       }else{
         Class.create({
           classCode: body.class.classCode,
-          name: body.class.name
+          name: body.class.name,
+          TeacherEmail: body.teacher.email
         })
       }
     }).catch(err=>console.log(err))
