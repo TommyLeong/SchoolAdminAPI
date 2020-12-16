@@ -11,4 +11,4 @@ const Subject = sequelize.define('Subject',{
     name: Sequelize.STRING
   })
 
-export default Subject;
+  module.exports = Subject;

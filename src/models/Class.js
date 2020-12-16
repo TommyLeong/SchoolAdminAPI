@@ -11,4 +11,4 @@ const Class = sequelize.define('Class',{
     name: Sequelize.STRING
   })
 
-export default Class;
+module.exports = Class;

@@ -16,4 +16,4 @@ const Teacher = sequelize.define('Teacher',{
 Teacher.hasMany(Class)
 Teacher.hasMany(Subject)
 
-export default Teacher;
+module.exports = Teacher;

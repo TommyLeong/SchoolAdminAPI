@@ -14,4 +14,5 @@ const Student = sequelize.define('Student',{
 
 Student.hasMany(Class)
 
-export default Student;
+
+module.exports = Student;
