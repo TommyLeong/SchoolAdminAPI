@@ -4,10 +4,12 @@ import sequelize from '../config/database';
 const Subject = sequelize.define('Subject',{
     uuid:{
       type: Sequelize.UUID,
-      primaryKey: true,
       defaultValue: Sequelize.UUIDV4
     },
-    subjectCode: Sequelize.STRING,
+    subjectCode: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+    },
     name: Sequelize.STRING
   })
 

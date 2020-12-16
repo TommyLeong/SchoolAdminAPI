@@ -6,11 +6,13 @@ import Subject from './Subject'
 const Teacher = sequelize.define('Teacher',{
     uuid:{
       type: Sequelize.UUID,
-      primaryKey: true,
       defaultValue: Sequelize.UUIDV4
     },
     name: Sequelize.STRING,
-    email: Sequelize.STRING
+    email: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+    }
 })
 
 Teacher.hasMany(Class)

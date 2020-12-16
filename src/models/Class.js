@@ -4,10 +4,12 @@ import sequelize from '../config/database';
 const Class = sequelize.define('Class',{
     uuid:{
       type: Sequelize.UUID,
-      primaryKey: true,
       defaultValue: Sequelize.UUIDV4
     },
-    classCode: Sequelize.STRING,
+    classCode: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+    },
     name: Sequelize.STRING
   })
 
