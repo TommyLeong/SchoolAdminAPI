@@ -31,59 +31,5 @@ const sequelize = new Sequelize(DB_SCHEMA, DB_USER, DB_PW, {
   }
 });
 
-const Teacher = sequelize.define('Teacher',{
-  uuid:{
-    type: Sequelize.UUID,
-    primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
-  },
-  name: Sequelize.STRING,
-  email: Sequelize.STRING
-})
-
-const Student = sequelize.define('Student',{
-  uuid:{
-    type: Sequelize.UUID,
-    primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
-  },
-  name: Sequelize.STRING,
-  email: Sequelize.STRING
-})
-
-const Subject = sequelize.define('Subject',{
-  uuid:{
-    type: Sequelize.UUID,
-    primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
-  },
-  subjectCode: Sequelize.STRING,
-  name: Sequelize.STRING
-})
-
-const Class = sequelize.define('Class',{
-  uuid:{
-    type: Sequelize.UUID,
-    primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
-  },
-  classCode: Sequelize.STRING,
-  name: Sequelize.STRING
-})
-
-Teacher.hasMany(Class)
-Teacher.hasMany(Subject)
-Student.hasMany(Class)
-// Subject.hasMany(Teacher)
-
-sequelize.sync({
-  logging: console.log,
-  force: true
-}).then(()=>{
-  console.log('Connection to database established successfully');
-}).catch(err=>{
-  console.error('Unable to connect database', err);
-})
-
 export default sequelize;
 
