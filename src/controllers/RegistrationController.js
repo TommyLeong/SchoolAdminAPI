@@ -40,31 +40,89 @@ const registrationHandler = async (req, res) => {
   sourceOfTruth.push(checkEmptyOrInvalidType(body.class.name, "string"));
 
   if(sourceOfTruth.includes(false)){
-    return res.sendStatus(422);
+    return res.sendStatus(400);
   }else{
-    Teacher.create({
-      name: body.teacher.name,
-      email: body.teacher.email
-    })
 
-    body.students.forEach(student => {
-      if(student.name !== undefined && student.email !== undefined){
-        Student.create({
-          name: student.name,
-          email: student.email,
+    await Teacher.findOne({
+      where:{
+        email: body.teacher.email
+      }
+    }).then(async(result)=>{
+      if(result){
+        await Teacher.update({ name: body.teacher.name, }, {
+          where: {
+            email: body.teacher.email
+          }
+        });
+      }else{
+        await Teacher.create({
+          name: body.teacher.name,
+          email: body.teacher.email
         })
+      }
+    }).catch(err=>console.log(err))
+
+    body.students.forEach(async student => {
+      if(student.name !== undefined && student.email !== undefined){
+
+        await Student.findOne({
+          where:{
+            email: student.email
+          }
+        }).then(async(result)=>{
+          if(result){
+            await Student.update({ name: student.name, }, {
+              where: {
+                email: student.email
+              }
+            });
+          }else{
+            await Student.create({
+              name: student.name,
+              email: student.email
+            })
+          }
+        }).catch(err=>console.log(err))
       }
     });
 
-    Subject.create({
-      subjectCode: body.subject.subjectCode,
-      name: body.subject.name
-    })
+    await Subject.findOne({
+      where:{
+        subjectCode: body.subject.subjectCode
+      }
+    }).then(async(result)=>{
+      if(result){
+        await Subject.update({ name: body.subject.name, }, {
+          where: {
+            subjectCode: body.subject.subjectCode
+          }
+        });
+      }else{
+        Subject.create({
+          subjectCode: body.subject.subjectCode,
+          name: body.subject.name
+        })
+      }
+    }).catch(err=>console.log(err))
 
-    Class.create({
-      classCode: body.class.classCode,
-      name: body.class.name
-    })
+    await Class.findOne({
+      where:{
+        classCode: body.class.classCode,
+      }
+    }).then(async(result)=>{
+      if(result){
+        await Class.update({ name: body.class.name, }, {
+          where: {
+            classCode: body.class.classCode,
+          }
+        });
+      }else{
+        Class.create({
+          classCode: body.class.classCode,
+          name: body.class.name
+        })
+      }
+    }).catch(err=>console.log(err))
 
     return res.sendStatus(204);
   }
