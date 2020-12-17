@@ -11,6 +11,7 @@ const GenerateReportController = Express.Router();
 const generateReportHandler = async (req, res) => {
   let finalResult = {}
   let workdone = 0;
+  let allEmails = [];
 
   await Teacher.findAll({raw : true})
   .then((teachers)=>{
@@ -23,7 +24,6 @@ const generateReportHandler = async (req, res) => {
       }).then(results=>{
 
         // Gather all emails
-        let allEmails = [];    
         results.filter(result=>allEmails.includes(result.teacherEmail) ? false : allEmails.push(result.teacherEmail))
 
         // Loop through based on email
@@ -89,7 +89,7 @@ const generateReportHandler = async (req, res) => {
         })
       })
       console.log(finalResult);
-      if(workdone === 2) return res.status(200).json(finalResult);
+      if(workdone === allEmails.length) return res.status(200).json(finalResult);
     })
   })
   .catch(err => console.log(err))
