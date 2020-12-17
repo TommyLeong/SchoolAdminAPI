@@ -4,6 +4,7 @@ import Teacher from '../models/Teacher'
 import Student from '../models/Student'
 import Subject from '../models/Subject'
 import Class from '../models/Class'
+import FactModel from '../models/FactModel'
 
 const RegistrationController = Express.Router();
 
@@ -42,7 +43,9 @@ const registrationHandler = async (req, res) => {
   if(sourceOfTruth.includes(false)){
     return res.sendStatus(400);
   }else{
-
+    /**
+     * Input Teacher Model
+     */
     await Teacher.findOne({
       where:{
         email: body.teacher.email
@@ -62,9 +65,11 @@ const registrationHandler = async (req, res) => {
       }
     }).catch(err=>console.log(err))
 
+    /**
+     * Input Student Model
+     */
     body.students.forEach(async student => {
       if(student.name !== undefined && student.email !== undefined){
-
         await Student.findOne({
           where:{
             email: student.email
@@ -84,8 +89,23 @@ const registrationHandler = async (req, res) => {
           }
         }).catch(err=>console.log(err))
       }
+
+      /**
+       * Input Fact Model
+       */
+      FactModel.create({
+        teacherEmail: body.teacher.email,
+        studentEmail: student.email,
+        classCode: body.class.classCode,
+        subjectCode: body.subject.subjectCode,
+      }).catch(err=>{
+        console.log(err)
+      })
     });
 
+    /**
+     * Input Subject Model
+     */
     await Subject.findOne({
       where:{
         subjectCode: body.subject.subjectCode
@@ -101,11 +121,13 @@ const registrationHandler = async (req, res) => {
         Subject.create({
           subjectCode: body.subject.subjectCode,
           name: body.subject.name,
-          TeacherEmail: body.teacher.email
         })
       }
     }).catch(err=>console.log(err))
 
+    /**
+     * Input Class Model
+     */
     await Class.findOne({
       where:{
         classCode: body.class.classCode,
@@ -119,9 +141,8 @@ const registrationHandler = async (req, res) => {
         });
       }else{
         Class.create({
-          classCode: body.class.classCode,
+          classCode: body.class.classCode, 
           name: body.class.name,
-          TeacherEmail: body.teacher.email
         })
       }
     }).catch(err=>console.log(err))
