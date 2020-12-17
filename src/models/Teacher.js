@@ -2,6 +2,8 @@ import Sequelize from 'sequelize';
 import sequelize from '../config/database';
 import Class from './Class'
 import Subject from './Subject'
+import Student from './Student'
+import FactModel from './FactModel'
 
 const Teacher = sequelize.define('Teacher',{
     uuid:{
@@ -15,7 +17,10 @@ const Teacher = sequelize.define('Teacher',{
     }
 })
 
-Teacher.hasMany(Class)
-Teacher.hasMany(Subject)
+// Teacher.hasMany(Class)
+// Teacher.hasMany(Subject)
+// Teacher.belongsToMany(Student, { through:FactModel })
+// Teacher.belongsToMany(Class, { through:FactModel })
+// Teacher.belongsToMany(Subject, { through:FactModel })
 
 module.exports = Teacher;
